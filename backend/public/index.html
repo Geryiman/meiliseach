@@ -1,19 +1,65 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <p hidden>Realizado por German Yair</p>
-  <title>GYMB</title>
+  <title>Interfaz de Búsqueda</title>
 </head>
 <body>
-  <h1>Buscador de Películas</h1>
-  <form method="GET" action="/search">
-    <label for="pelicula">Nombre de la película:</label>
-    <input type="text" id="pelicula" name="q" required>
-    <input type="submit" value="Buscar">
-  </form>
+  <h1>Búsqueda de Películas</h1>
+  <input type="text" id="searchQuery" placeholder="Escribe tu búsqueda">
+  <button onclick="performSearch()">Buscar</button>
+  <div id="results"></div>
 
-  <div id="resultados"></div>
+  <script>
+    async function performSearch() {
+      const query = document.getElementById('searchQuery').value;
+      if (!query) {
+        alert('Por favor, ingresa un término de búsqueda.');
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:3000/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al realizar la búsqueda');
+        }
+
+        const data = await response.json();
+        displayResults(data.hits);
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('results').innerText = 'Error al realizar la búsqueda.';
+      }
+    }
+
+    function displayResults(results) {
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = ''; // Limpia resultados anteriores
+
+      if (results.length === 0) {
+        resultsDiv.innerHTML = '<p>No se encontraron resultados.</p>';
+        return;
+      }
+
+      results.forEach(result => {
+        const resultItem = document.createElement('div');
+        resultItem.innerHTML = `
+          <p><strong>Título:</strong> ${result.title || 'Sin título'}</p>
+          <p><strong>Descripción:</strong> ${result.overview || 'Sin descripción'}</p>
+          <p><strong>Poster:</strong> 
+          ${result.poster ? `<img src="${result.poster}" alt="Poster de ${result.title}" style="max-width: 200px; border-radius: 5px;">` : 'Sin imagen'}
+        </p>
+
+        `;
+        resultsDiv.appendChild(resultItem);
+      });
+    }
+  </script>
 </body>
 </html>

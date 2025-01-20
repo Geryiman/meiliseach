@@ -1,31 +1,33 @@
 const express = require('express');
 const { MeiliSearch } = require('meilisearch');
-const path = require('path');
+const cors = require('cors'); // Habilitar CORS para permitir solicitudes desde el frontend
 
 const app = express();
+
+// Configurar CORS
+app.use(cors());
+app.use(express.json()); // Para manejar JSON en el cuerpo de las solicitudes
+
 const client = new MeiliSearch({
   host: 'http://172.233.131.83:7700',
   apiKey: '6d9bb59dca80659707c17d1363e5393fd13475362644c14faf0652ee886',
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.get('/search', async (req, res) => {
-  const query = req.query.q;
-
+// Endpoint para realizar la búsqueda
+app.post('/search', async (req, res) => {
   try {
-    const index = client.index('movies');
-    const searchResults = await index.search(query); 
+    const { query } = req.body; // Recibir el término de búsqueda desde el frontend
+    const index = client.index('movies'); // Asegúrate de que 'movies' es el índice correcto
+    const searchResults = await index.search(query);
     res.json(searchResults);
   } catch (error) {
     console.error('Error al realizar la búsqueda:', error);
-    res.status(500).json({ error: 'Ocurrió un error al buscar las películas.' });
+    res.status(500).json({ error: 'Error al realizar la búsqueda' });
   }
 });
-app.listen(3000, () => {
-  console.log('Servidor escuchando en el puerto 3000');
+
+// Inicia el servidor
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
