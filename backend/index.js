@@ -10,7 +10,7 @@ const client = new MeiliSearch({
 async function performSearch() {
   try {
     const index = client.index('movies'); 
-    const search = await index.search('philadelphia');
+    const search = await index.search(Search());
     console.log('Resultados de búsqueda:', search);
   } catch (error) {
     console.error('Error al realizar la búsqueda:', error);

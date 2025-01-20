@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscador de Películas con Meilisearch</title>
+</head>
+<body>
+  <h1>Buscador de Películas</h1>
+  <form method="GET" action="/search">
+    <label for="pelicula">Nombre de la película:</label>
+    <input type="text" id="pelicula" name="q" required>
+    <input type="submit" value="Buscar">
+  </form>
+
+  <div id="resultados"></div>
+</body>
+</html>
