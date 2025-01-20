@@ -5,7 +5,6 @@ const path = require('path');
 const app = express();
 const client = new MeiliSearch({
   host: 'http://172.233.131.83:7700',
-  apiKey: '6d9bb59dca80659707c17d1363e5393fd13475362644c14faf0652ee886'
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
