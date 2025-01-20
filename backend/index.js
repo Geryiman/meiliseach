@@ -1,23 +1,22 @@
 const express = require('express');
 const { MeiliSearch } = require('meilisearch');
-const cors = require('cors'); // Habilitar CORS para permitir solicitudes desde el frontend
+const cors = require('cors'); 
 
 const app = express();
 
-// Configurar CORS
+
 app.use(cors());
-app.use(express.json()); // Para manejar JSON en el cuerpo de las solicitudes
+app.use(express.json()); 
 
 const client = new MeiliSearch({
   host: 'http://172.233.131.83:7700',
   apiKey: '6d9bb59dca80659707c17d1363e5393fd13475362644c14faf0652ee886',
 });
 
-// Endpoint para realizar la búsqueda
 app.post('/search', async (req, res) => {
   try {
-    const { query } = req.body; // Recibir el término de búsqueda desde el frontend
-    const index = client.index('movies'); // Asegúrate de que 'movies' es el índice correcto
+    const { query } = req.body; 
+    const index = client.index('movies'); 
     const searchResults = await index.search(query);
     res.json(searchResults);
   } catch (error) {
@@ -26,7 +25,6 @@ app.post('/search', async (req, res) => {
   }
 });
 
-// Inicia el servidor
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
