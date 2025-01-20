@@ -3,7 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interfaz de Búsqueda</title>
+  <p hidden>Realizado por German Yair</p>
+  <title>GYMB</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      color: #444;
+    }
+
+    #searchQuery {
+      display: block;
+      width: 80%;
+      max-width: 400px;
+      margin: 0 auto 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      display: block;
+      width: 150px;
+      margin: 10px auto;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #results {
+      width: 80%;
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #results div {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    #results div:last-child {
+      border-bottom: none;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 5px;
+    }
+
+    p {
+      margin: 5px 0;
+    }
+
+    p strong {
+      color: #555;
+    }
+
+    @media (max-width: 600px) {
+      #searchQuery {
+        width: 90%;
+      }
+
+      #results {
+        width: 90%;
+      }
+
+      button {
+        width: 70%;
+      }
+    }
+  </style>
 </head>
 <body>
   <h1>Búsqueda de Películas</h1>
@@ -52,9 +143,8 @@
           <p><strong>Título:</strong> ${result.title || 'Sin título'}</p>
           <p><strong>Descripción:</strong> ${result.overview || 'Sin descripción'}</p>
           <p><strong>Poster:</strong> 
-          ${result.poster ? `<img src="${result.poster}" alt="Poster de ${result.title}" style="max-width: 200px; border-radius: 5px;">` : 'Sin imagen'}
+          ${result.poster ? `<img src="${result.poster}" alt="Poster de ${result.title}">` : 'Sin imagen'}
         </p>
-
         `;
         resultsDiv.appendChild(resultItem);
       });
